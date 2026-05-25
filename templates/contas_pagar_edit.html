@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Conta - Contas a Pagar</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='pinho.ico') }}" type="image/x-icon">
+</head>
+
+<body>
+    <div class="app-shell">
+
+        <aside class="sidebar">
+            <img src="{{ url_for('static', filename='Logo-pinho.png') }}" class="logo-img">
+
+            <div class="buttons sidebar-buttons">
+                <a href="{{ url_for('homepage') }}"><button>Inicio</button></a>
+                <a href="{{ url_for('cadastro') }}"><button>Cadastro</button></a>
+                <a href="{{ url_for('clientes') }}"><button>Clientes</button></a>
+                <a href="{{ url_for('contas_a_pagar') }}"><button>CONTAS A PAGAR</button></a>
+            </div>
+        </aside>
+
+        <main class="main-panel">
+            <h1>Editar Conta a Pagar</h1>
+            <form action="/contas-a-pagar/atualizar/{{ conta.id }}" method="post" class="edit-form">
+                <div class="field-row">
+                    <div class="field-group">
+                        <label>Descrição</label>
+                        <input type="text" name="descricao" value="{{ conta.descricao }}" required>
+                    </div>
+                    <div class="field-group">
+                        <label>Forma</label>
+                        <input type="text" name="forma" value="{{ conta.forma }}" required>
+                    </div>
+                </div>
+
+                <div class="field-row">
+                    <div class="field-group">
+                        <label>Parcela</label>
+                        <input type="text" name="parcela" value="{{ conta.parcela }}" required>
+                    </div>
+                    <div class="field-group">
+                        <label>Valor</label>
+                        <input type="number" step="0.01" name="valor" value="{{ conta.valor }}" required>
+                    </div>
+                </div>
+
+                <div class="field-row">
+                    <div class="field-group">
+                        <label>Data de Vencimento</label>
+                        <input type="date" name="data_vencimento" value="{{ conta.data_vencimento }}" required>
+                    </div>
+                    <div class="field-group">
+                        <label>Status</label>
+                        <select name="status">
+                            <option value="pendente" {% if conta.status == 'pendente' %}selected{% endif %}>Pendente</option>
+                            <option value="pago" {% if conta.status == 'pago' %}selected{% endif %}>Pago</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit">Salvar alterações</button>
+            </form>
+        </main>
+
+    </div>
+</body>
+</html>

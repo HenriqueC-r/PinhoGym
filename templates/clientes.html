@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fisico e Forma</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='pinho.ico') }}" type="image/x-icon">
+</head>
+
+<body>
+
+<div class="app-shell">
+
+    <aside class="sidebar">
+        <img src="{{ url_for('static', filename='Logo-pinho.png') }}" class="logo-img">
+
+        <div class="buttons sidebar-buttons">
+            <a href="{{ url_for('homepage') }}"><button>Inicio</button></a>
+            <a href="{{ url_for('cadastro') }}"><button>Cadastro</button></a>
+            <a href="{{ url_for('clientes') }}"><button>Clientes</button></a>
+            <a href="{{ url_for('contas_a_pagar') }}"><button>CONTAS A PAGAR</button></a>
+        </div>
+    </aside>
+
+    <main class="main-panel">
+
+        <h1>Clientes</h1>
+
+        <div class="search-row">
+            <form action="{{ url_for('clientes') }}" method="get" class="search-form">
+                <input type="search" name="q" class="search-input" placeholder="Buscar por nome ou CPF" value="{{ search_query|default('') }}">
+                <button type="submit" class="search-button">Pesquisar</button>
+            </form>
+
+            <div class="report-area">
+                <div class="report-card">
+                    <div class="report-card-left">
+                        <span class="report-title">Total pago</span>
+                        <strong>R$ {{ '%.2f' | format(total_pago) }}</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if search_query %}
+        <p class="search-note">Mostrando resultados para "<strong>{{ search_query }}</strong>"</p>
+        {% endif %}
+
+        <div class="clientes-list">
+            {% for c in clientes %}
+            <a href="/cliente/{{ c.id }}" class="cliente-link">
+                <div class="linha">
+                    <span>{{ c.id }}</span>
+                    <span>{{ c.nome }}</span>
+                    <span>{{ c.data_pagamento.strftime('%d/%m/%Y') if c.data_pagamento else '' }}</span>
+                    <span>R$ {{ c.valor }}</span>
+
+                    {% if c.status == 'fechado' %}
+                        <span class="status-badge status-fechado">🔴 Fechado</span>
+                    {% elif c.status == 'pago' %}
+                        <span class="status-badge status-pago">🟢 Pago</span>
+                    {% elif c.status == 'pendente' %}
+                        <span class="status-badge status-pendente">🟡 Pendente</span>
+                    {% else %}
+                        <span class="status-badge">⚪ Sem status</span>
+                    {% endif %}
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - Fisico e Forma</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='pinho.ico') }}" type="image/x-icon">
+</head>
+
+<body>
+    <div class="app-shell">
+
+        <aside class="sidebar">
+            <img src="{{ url_for('static', filename='Logo-pinho.png') }}" class="logo-img">
+
+            <div class="buttons sidebar-buttons">
+                <a href="{{ url_for('homepage') }}"><button>Inicio</button></a>
+                <a href="{{ url_for('cadastro') }}"><button>Cadastro</button></a>
+                <a href="{{ url_for('clientes') }}"><button>Clientes</button></a>
+                <a href="{{ url_for('contas_a_pagar') }}"><button>CONTAS A PAGAR</button></a>
+            </div>
+        </aside>
+
+        <main class="main-panel">
+
+            <h1>Cadastrar Cliente</h1>
+
+            <section class="cadastro-card">
+                <form action="/cadastrar" method="POST" class="cadastro-form">
+                    <div class="field-row">
+                        <label>
+                            <span>Nome do cliente</span>
+                            <input type="text" name="nome" placeholder="Nome do cliente" required>
+                        </label>
+                        <label>
+                            <span>CPF</span>
+                            <input type="text" name="cpf" placeholder="CPF" required>
+                        </label>
+                    </div>
+
+                    <div class="field-row">
+                        <label>
+                            <span>Telefone</span>
+                            <input type="text" name="telefone" placeholder="Telefone" required>
+                        </label>
+                        <label>
+                            <span>Valor mensal</span>
+                            <input type="number" name="valor" placeholder="Valor mensal" required>
+                        </label>
+                    </div>
+
+                    <label>
+                        <span>Data de vencimento</span>
+                        <input type="date" name="data_pagamento" required>
+                    </label>
+
+                    <button type="submit">Cadastrar</button>
+                </form>
+            </section>
+
+        </main>
+
+    </div>
+</body>
+</html>

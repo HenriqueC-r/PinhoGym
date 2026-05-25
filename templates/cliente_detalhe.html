@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Cliente - Fisico e Forma</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='pinho.ico') }}" type="image/x-icon">
+</head>
+
+<body>
+    <div class="app-shell">
+
+        <aside class="sidebar">
+            <img src="{{ url_for('static', filename='Logo-pinho.png') }}" class="logo-img">
+
+            <div class="buttons sidebar-buttons">
+                <a href="{{ url_for('homepage') }}"><button type="button">Inicio</button></a>
+                <a href="{{ url_for('cadastro') }}"><button type="button">Cadastro</button></a>
+                <a href="{{ url_for('clientes') }}"><button type="button">Clientes</button></a>
+                <a href="{{ url_for('contas_a_pagar') }}"><button type="button">CONTAS A PAGAR</button></a>
+            </div>
+        </aside>
+
+        <main class="main-panel">
+
+            <h1>Editar Cliente</h1>
+
+            <form action="/atualizar/{{ cliente.id }}" method="POST" class="edit-form">
+
+                <div class="field-row">
+                    <div class="field-group">
+                        <label>Nome</label>
+                        <input type="text" name="nome" value="{{ cliente.nome }}" required>
+                    </div>
+                    <div class="field-group">
+                        <label>CPF</label>
+                        <input type="text" name="cpf" value="{{ cliente.cpf }}" required>
+                    </div>
+                </div>
+
+                <div class="field-row">
+                    <div class="field-group">
+                        <label>Telefone</label>
+                        <input type="text" name="telefone" value="{{ cliente.telefone }}" required>
+                    </div>
+                    <div class="field-group">
+                        <label>Valor</label>
+                        <input type="number" step="0.01" name="valor" value="{{ cliente.valor }}" required>
+                    </div>
+                </div>
+
+                <div class="field-row">
+                    <div class="field-group">
+                        <label>Data de Vencimento</label>
+                        <input type="date" name="data_pagamento" value="{{ cliente.data_pagamento }}" required>
+                    </div>
+                    <div class="field-group">
+                        <label>Status</label>
+                        <select name="status">
+                            <option value="pendente" {% if cliente.status == 'pendente' %}selected{% endif %}>Pendente</option>
+                            <option value="pago" {% if cliente.status == 'pago' %}selected{% endif %}>Pago</option>
+                            <option value="fechado" {% if cliente.status == 'fechado' %}selected{% endif %}>Fechado</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="save-button">Salvar alterações</button>
+                    <button type="submit" name="delete" value="1" class="delete-button">Excluir cadastro</button>
+                </div>
+            </form>
+
+        </main>
+
+    </div>
+</body>
+</html>

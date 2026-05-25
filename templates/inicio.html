@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fisico e Forma</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='pinho.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+<div class="app-shell">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <img src="{{ url_for('static', filename='Logo-pinho.png') }}" class="logo-img">
+
+        <div class="buttons sidebar-buttons">
+            <a href="/"><button>Inicio</button></a>
+            <a href="/cadastro"><button>Cadastro</button></a>
+            <a href="/clientes"><button>Clientes</button></a>
+            <a href="/contas-a-pagar"><button>Contas a Pagar</button></a>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main-panel">
+
+        <!-- LOGOFF -->
+        <img src="{{ url_for('static', filename='logoff.png') }}" class="logoff-img">
+
+        <!-- CARDS -->
+        <div class="summary-row">
+            <div class="summary-card">
+                <span>Clientes</span>
+                <strong>{{ total_clientes }}</strong>
+            </div>
+
+            <div class="summary-card">
+                <span>Total Pago</span>
+                <strong>R$ {{ total_pago }}</strong>
+            </div>
+
+            <div class="summary-card">
+                <span>Pendente</span>
+                <strong>R$ {{ total_pendente }}</strong>
+            </div>
+        </div>
+
+        <!-- DASHBOARD -->
+        <div class="dashboard-grid">
+
+            <div class="card">
+                <h3>Cadastros por mês</h3>
+                <canvas id="graficoPagamentos"></canvas>
+            </div>
+
+            <div class="card">
+                <h3>Distribuição</h3>
+                <canvas id="graficoPizza"></canvas>
+            </div>
+
+        </div>
+
+    </main>
+</div>
+
+<script>
+window.appData = {
+    cadastros: {{ cadastros | tojson }},
+    pago: {{ total_pago }},
+    pendente: {{ total_pendente }},
+    fechado: {{ total_fechado }}
+};
+</script>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+
+</body>
+</html>

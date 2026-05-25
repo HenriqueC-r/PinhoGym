@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contas a Pagar - Fisico e Forma</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='pinho.ico') }}" type="image/x-icon">
+</head>
+
+<body>
+    <div class="app-shell">
+
+        <aside class="sidebar">
+            <img src="{{ url_for('static', filename='Logo-pinho.png') }}" class="logo-img">
+
+            <div class="buttons sidebar-buttons">
+                <a href="{{ url_for('homepage') }}"><button>Inicio</button></a>
+                <a href="{{ url_for('cadastro') }}"><button>Cadastro</button></a>
+                <a href="{{ url_for('clientes') }}"><button>Clientes</button></a>
+                <a href="{{ url_for('contas_a_pagar') }}"><button>CONTAS A PAGAR</button></a>
+            </div>
+        </aside>
+
+        <main class="main-panel">
+            <div class="page-header">
+                <div>
+                    <h1>Contas a Pagar</h1>
+                    <p class="page-description">Adicione, edite e marque como pago os lançamentos de conta a pagar.</p>
+                </div>
+                <form action="{{ url_for('contas_a_pagar') }}" method="get" class="search-form">
+                    <input type="search" name="q" class="search-input" placeholder="Buscar contas" value="{{ search_query|default('') }}">
+                    <button type="submit" class="search-button">Buscar</button>
+                </form>
+            </div>
+
+            <div class="summary-row">
+                <div class="summary-card card-pendente">
+                    <span class="summary-label">Total a pagar</span>
+                    <strong>R$ {{ '%.2f' | format(total_pendente) }}</strong>
+                </div>
+                <div class="summary-card card-pago">
+                    <span class="summary-label">Total pago</span>
+                    <strong>R$ {{ '%.2f' | format(total_pago) }}</strong>
+                </div>
+                <div class="summary-card card-geral">
+                    <span class="summary-label">Total geral</span>
+                    <strong>R$ {{ '%.2f' | format(total_geral) }}</strong>
+                </div>
+            </div>
+
+            <section class="form-card">
+                <h2>Nova conta</h2>
+                <form action="{{ url_for('contas_a_pagar_adicionar') }}" method="post" class="contas-form">
+                    <input type="text" name="descricao" placeholder="Descrição" required>
+                    <input type="text" name="forma" placeholder="Forma de pagamento" required>
+                    <input type="text" name="parcela" placeholder="Parcela" required>
+                    <input type="number" step="0.01" name="valor" placeholder="Valor" required>
+                    <input type="date" name="data_vencimento" required>
+                    <button type="submit">Adicionar conta</button>
+                </form>
+            </section>
+
+            <section class="contas-table-section">
+                <div class="table-title-row">
+                    <h2>Contas cadastradas</h2>
+                    <span>{{ contas|length }} registro(s)</span>
+                </div>
+
+                {% if contas %}
+                <div class="contas-table">
+                    <div class="table-row table-head">
+                        <div>Descrição</div>
+                        <div>Forma</div>
+                        <div>Parcela</div>
+                        <div>Vencimento</div>
+                        <div>Valor</div>
+                        <div>Status</div>
+                        <div>Ações</div>
+                    </div>
+
+                    {% for conta in contas %}
+                    <div class="table-row">
+                        <div>{{ conta.descricao }}</div>
+                        <div>{{ conta.forma }}</div>
+                        <div>{{ conta.parcela }}</div>
+                        <div>{{ conta.data_vencimento.strftime('%d/%m/%Y') if conta.data_vencimento else '' }}</div>
+                        <div>R$ {{ '%.2f' | format(conta.valor) }}</div>
+                        <div>
+                            {% if conta.status == 'pago' %}
+                                <span class="status-badge status-pago">🟢 Pago</span>
+                            {% else %}
+                                <span class="status-badge status-pendente">🟡 Pendente</span>
+                            {% endif %}
+                        </div>
+                        <div class="actions-cell">
+                            <a href="{{ url_for('contas_a_pagar_editar', id=conta.id) }}" class="action-link">Editar</a>
+                            <form action="{{ url_for('contas_a_pagar_excluir', id=conta.id) }}" method="post" class="inline-form">
+                                <button type="submit" class="table-button table-button-danger">Excluir</button>
+                            </form>
+                            {% if conta.status != 'pago' %}
+                            <form action="/contas-a-pagar/pagar/{{ conta.id }}" method="post" class="inline-form">
+                                <button type="submit" class="table-button">Pagar</button>
+                            </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="empty-state">Nenhuma conta a pagar cadastrada.</p>
+                {% endif %}
+            </section>
+        </main>
+
+    </div>
+</body>
+</html>
