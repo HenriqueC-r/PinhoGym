@@ -14,13 +14,13 @@
 
     <!-- SIDEBAR -->
     <aside class="sidebar">
-        <img src="{{ url_for('static', filename='Logo-pinho.png') }}" class="logo-img">
+        <img src="{{ url_for('static', filename='Logo-pinho.png') }}" class="logo-img" alt="Fisico e Forma">
 
         <div class="buttons sidebar-buttons">
-            <a href="/"><button>Inicio</button></a>
-            <a href="/cadastro"><button>Cadastro</button></a>
-            <a href="/clientes"><button>Clientes</button></a>
-            <a href="/contas-a-pagar"><button>Contas a Pagar</button></a>
+            <a href="{{ url_for('homepage') }}">Inicio</a>
+            <a href="{{ url_for('cadastro') }}">Cadastro</a>
+            <a href="{{ url_for('clientes') }}">Clientes</a>
+            <a href="{{ url_for('contas_a_pagar') }}">Contas a Pagar</a>
         </div>
     </aside>
 
@@ -28,7 +28,7 @@
     <main class="main-panel">
 
         <!-- LOGOFF -->
-        <img src="{{ url_for('static', filename='logoff.png') }}" class="logoff-img">
+        <img src="{{ url_for('static', filename='logoff.png') }}" class="logoff-img" alt="Sair">
 
         <!-- CARDS -->
         <div class="summary-row">
@@ -66,14 +66,17 @@
     </main>
 </div>
 
-<script>
-window.appData = {
-    cadastros: {{ cadastros | tojson }},
-    pago: {{ total_pago }},
-    pendente: {{ total_pendente }},
-    fechado: {{ total_fechado }}
-};
-</script>
+<div
+    id="dashboard-data"
+    hidden
+    data-cadastros='{{ cadastros | tojson }}'
+    data-pago="{{ total_pago }}"
+    data-pendente="{{ total_pendente }}"
+    data-fechado="{{ total_fechado }}"
+    data-clientes-pago="{{ clientes_pago }}"
+    data-clientes-pendente="{{ clientes_pendente }}"
+    data-clientes-fechado="{{ clientes_fechado }}"
+></div>
 <script src="{{ url_for('static', filename='app.js') }}"></script>
 
 </body>

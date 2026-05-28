@@ -1,19 +1,3 @@
-<<<<<<< HEAD
-import mysql.connector
-import os
-from dotenv import load_dotenv
-
-load_dotenv()
-
-def conectar_bd():
-    return mysql.connector.connect(
-        host=os.getenv('DB_HOST', 'localhost'),
-        user=os.getenv('DB_USER', 'root'),
-        password=os.getenv('DB_PASSWORD', 'Wasd1313@'),
-        database=os.getenv('DB_NAME', 'academia'),
-        port=int(os.getenv('DB_PORT', 3306))
-    )
-=======
 import sqlite3
 from pathlib import Path
 
@@ -35,7 +19,6 @@ def coluna_existe(cursor, tabela, coluna):
 def adicionar_coluna_se_faltar(cursor, tabela, coluna, definicao):
     if not coluna_existe(cursor, tabela, coluna):
         cursor.execute(f"ALTER TABLE {tabela} ADD COLUMN {coluna} {definicao}")
->>>>>>> df9122e (initial commit - Academia Pinho system)
 
 
 def criar_tabelas():
@@ -43,33 +26,6 @@ def criar_tabelas():
     cursor = conexao.cursor()
 
     cursor.execute("""
-<<<<<<< HEAD
-    CREATE TABLE IF NOT EXISTS contas_pagar (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        descricao VARCHAR(255) NOT NULL,
-        forma VARCHAR(100) NOT NULL,
-        parcela VARCHAR(100) NOT NULL,
-        valor DECIMAL(10,2) NOT NULL,
-        data_vencimento DATE NOT NULL,
-        status ENUM('pendente','pago') NOT NULL DEFAULT 'pendente',
-        criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    )
-    """)
-
-    cursor.execute(
-        "SELECT COUNT(*) FROM information_schema.COLUMNS "
-        "WHERE TABLE_SCHEMA = %s AND TABLE_NAME = 'clientes' AND COLUMN_NAME = 'data_pago'",
-        ("academia",)
-    )
-    column_exists = cursor.fetchone()[0] > 0
-
-    if not column_exists:
-        cursor.execute("ALTER TABLE clientes ADD COLUMN data_pago DATE NULL")
-
-    conexao.commit()
-    cursor.close()
-    conexao.close()
-=======
     CREATE TABLE IF NOT EXISTS clientes (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         nome TEXT NOT NULL,
@@ -102,4 +58,3 @@ def criar_tabelas():
     conexao.commit()
     cursor.close()
     conexao.close()
->>>>>>> df9122e (initial commit - Academia Pinho system)
