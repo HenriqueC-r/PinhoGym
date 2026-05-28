@@ -73,7 +73,7 @@ O sistema possui um dashboard administrativo que fornece informações important
 
 - Python 🐍  
 - Flask 🌐  
-- MySQL 🗄️  
+- SQLite 🗄️  
 - HTML / CSS / JavaScript  
 - Bootstrap  
 
